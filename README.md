@@ -1,0 +1,7 @@
+这是利用tornado编写的一个web管理平台
+用于管理nbs项目中移动手机收费的情况
+
+example目录中为nginx配置文件、supervisord配置文件和启动脚本
+
+
+
