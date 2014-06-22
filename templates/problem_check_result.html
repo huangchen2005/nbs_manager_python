@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>NBS</title>
+<link href="/static/css/css.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/calendar-nbs.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-2.0.3.min.js"></script>
+<script src="/static/js/calendar_stripped.js"></script>
+<script src="/static/js/calendar-setup_stripped.js"></script>
+<script src="/static/js/nb-calendar-editor.js"></script>
+<script src="/static/js/lang/calendar-zh_CN.js"></script>
+<script src="/static/js/lang/nb-calendar-zh_CN.js"></script>
+<script src="/static/js/tb.js"></script>
+</head>
+
+</head>
+
+<body>
+<div id="container">
+        {% include user.html %}
+        {% include header.html %}
+        {% include menu.html %}
+	<div id="mainContent">
+        	<div id="sidebar">
+                {% include problem_sidebar.html %}
+                </div>
+                <div id="content">
+                <h2 >问题查询结果</h2>
+                任务调度条数:  {{dsp_count.COUNT}} <br/>
+                数据收集条数:  {{col_count.COUNT}}
+                </div>
+	</div>
+        {% include footer.html %}
+</div>
+</body>
+	<script>
+<!--
+          NBCalendar.setup({
+              inputField	:	"bg_time",		// id of the input field
+               button        :   document.getElementById("bgDateImg"),
+              ifFormat		:	"%Y-%m-%d %H:%M",		// format of the input field
+			  showsTime		:true,
+              electric		:	false,			// update field only when closed
+              align			:   "Br"
+          });
+
+          NBCalendar.setup({
+              inputField	:	"ed_time",		// id of the input field
+               button        :   document.getElementById("edDateImg"),
+              ifFormat		:	"%Y-%m-%d %H:%M",		// format of the input field
+			  showsTime		:true,
+              electric		:	false,			// update field only when closed
+              align			:   "Br"
+          });
+ //-->
+      </script>
+</html>

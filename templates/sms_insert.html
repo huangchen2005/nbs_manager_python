@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>NBS</title>
+<link href="/static/css/css.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/calendar-nbs.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-2.0.3.min.js"></script>
+<script src="/static/js/calendar_stripped.js"></script>
+<script src="/static/js/calendar-setup_stripped.js"></script>
+<script src="/static/js/nb-calendar-editor.js"></script>
+<script src="/static/js/lang/calendar-zh_CN.js"></script>
+<script src="/static/js/lang/nb-calendar-zh_CN.js"></script>
+<script src="/static/js/tb.js"></script>
+</head>
+
+<body>
+<div id="container">
+	{% include user.html %}
+        {% include header.html %}
+        {% include menu.html %}
+	<div id="mainContent">
+        	<div id="sidebar">
+        		 {% include sms_sidebar.html %}
+                </div>
+                <div id="content">
+                <h2 >添加短信信息</h2>
+                <form method="post" action="/nbs_sms/Sms/insert">
+                <table class="config" width="100%" border="0" cellspacing="0" id="main" style="display:table;">
+                <tr>
+                	<td width="130">手机号码</td>
+                	<td><input type="text" name="phone_number"></td>
+                </tr>
+                <tr>
+                	<td width="130">手机余额</td>
+                	<td><input type="text" name="fare_content"></td>
+                </tr>
+                <tr>
+                	<td width="130">手机流量</td>
+                	<td><input type="text" name="flow_content"></td>
+                </tr>
+                <tr>
+                	<td width="130"></td>
+                	<td><input type="submit" value="添加"></td>
+                </tr>
+                </table>
+                </form>
+                </div>
+	</div>
+	 {% include footer.html %}
+</div>
+</body>
+	<script>
+<!--
+          NBCalendar.setup({
+              inputField	:	"bg_time",		// id of the input field
+               button        :   document.getElementById("bgDateImg"),
+              ifFormat		:	"%Y-%m-%d",		// format of the input field
+			  showsTime		:false,
+              electric		:	false,			// update field only when closed
+              align			:   "Br"
+          });
+ //-->
+      </script>
+</html>

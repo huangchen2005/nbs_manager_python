@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>NBS</title>
+    <link href="/static/css/login.css" media="screen" rel="stylesheet" type="text/css"/>
+    <script src="/static/js/jquery-2.0.3.min.js"></script>
+    <script src="/static/js/jquery.md5.js"></script>
+    <script type="text/javascript">
+
+    var jq=jQuery.noConflict();
+
+    function getCookie(name) {
+    	var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    	return r ? r[1] : undefined;
+    }
+
+    jq(document).ready(function() {
+	jq("#submit").click(function() {
+		var username=jq("#username").val();
+		var passwd=jq("#password").val();
+		if (username == ""){
+			jq("#ErrMsg").html("<font color=red>用户名不能为空</font>");
+		}
+		else if (passwd == ""){
+			jq("#ErrMsg").html("<font color=red>密码不能为空</font>");
+		}
+		else{
+			var _xsrf=getCookie("_xsrf");
+			var password=jq.md5(passwd);
+			jq.post("/login",
+			{
+				name:username,
+				passwd:password,
+				_xsrf:_xsrf
+			},
+			function(data,status) {
+				if (status == "success" && data == "1"){
+					window.location = "/";
+				}
+				if (status == "success" && data == "0"){
+					jq("#ErrMsg").html("<font color=red>您的用户名和密码不匹配</font>");
+					jq("#password").val('');
+				}
+			});
+		}
+	});
+    });
+	
+    </script>
+
+</head>
+
+<body>
+<form id="login">
+    <h1>登录</h1>
+    <span id="ErrMsg"></span>
+    {% raw xsrf_form_html() %}
+    <fieldset id="inputs">
+        <input id="username" name="name" type="text" placeholder="Username" autofocus required>
+        <input id="password" name="passwd" type="password" placeholder="Password" required>
+    </fieldset>
+    <fieldset id="actions">
+        <input type="button" id="submit" value="登录"/>
+    </fieldset>
+</form>
+</body>
+</html>

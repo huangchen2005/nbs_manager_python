@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+#nbs_manager - this script starts and stops the nbs_manager
+#
+# description:  nbs_manager is an HTTP server
+  
+
+supervisorctl=`which supervisorctl`
+  
+  
+start() {
+    $supervisorctl start nbs_manager:*
+}
+  
+stop() {
+    for i in {0..1}
+    do
+    	$supervisorctl stop nbs_manager:nbs_manager$i
+    done
+}
+  
+restart() {
+    for i in {0..1}
+    do
+	$supervisorctl restart nbs_manager:nbs_manager$i
+    done
+}
+
+status() {
+    tmp=""
+    for i in {0..1}
+    do
+	tmp=$tmp" nbs_manager:nbs_manager$i"
+    done
+    $supervisorctl status $tmp
+}
+  
+  
+  
+case "$1" in
+    start)
+	start
+        ;;
+    stop)
+	stop
+        ;;
+    restart)
+	restart
+        ;;
+    status)
+	status
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
+        exit 2
+esac

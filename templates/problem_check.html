@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>NBS</title>
+<link href="/static/css/css.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/calendar-nbs.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-2.0.3.min.js"></script>
+<script src="/static/js/calendar_stripped.js"></script>
+<script src="/static/js/calendar-setup_stripped.js"></script>
+<script src="/static/js/nb-calendar-editor.js"></script>
+<script src="/static/js/lang/calendar-zh_CN.js"></script>
+<script src="/static/js/lang/nb-calendar-zh_CN.js"></script>
+<script src="/static/js/tb.js"></script>
+</head>
+<script type="text/javascript">
+    var jq=jQuery.noConflict();
+    jq(document).ready(function() {
+    	jq("#submit").click(function() {
+    		var hostid = jq("#host_id").val();	
+    		var bg_time = jq("#bg_time").val();
+    		var ed_time = jq("#ed_time").val();
+    		var time_type = jq('input:radio[id=time_type]:checked').val();
+
+    		if (hostid == "") {
+    			jq("#ErrMsg").html("<font color=red>节点ID不能为空</font>");
+    			return false;
+    		}
+
+		
+		if(!jq.isNumeric(hostid)){
+    			jq("#ErrMsg").html("<font color=red>节点ID必须为正整数</font>");
+    			return false;
+		}
+	
+
+		if (time_type == "absolutely") {
+    			if (bg_time == "") {
+    				jq("#ErrMsg").html("<font color=red>开始时间不能为空</font>");
+    				return false;
+    			}
+    			if (ed_time == ""){
+    				jq("#ErrMsg").html("<font color=red>结束时间不能为空</font>");
+    				return false;
+    			}
+			var start=Date.parse(bg_time);
+			var end=Date.parse(ed_time);
+			var iSec = (end-start)/1000;
+			alert(iSec);
+			if ((iSec < 0) || (iSec > 3600*24)) {
+				jq("#ErrMsg").html("<font color=red>开始时间不能大于结束时间，且开始时间与结束时间相差不能超过一天</font>");
+				return false;
+			}
+		}
+
+
+
+	});
+    });
+</script>
+
+
+
+<body>
+<div id="container">
+        {% include user.html %}
+        {% include header.html %}
+        {% include menu.html %}
+	<div id="mainContent">
+        	<div id="sidebar">
+                {% include problem_sidebar.html %}
+                </div>
+                <div id="content">
+                <h2 >查找条件</h2>
+                <span id="ErrMsg"></span>
+                <form method="post" action="/problem/checkresult">
+                <table class="config" width="100%" border="0" cellspacing="0" id="main" style="display:table;">
+                <tr>
+                	<td width="130">city_name</td>
+                	<td>
+   	                <select name="city_id" id="city_id" style="width:155px">
+                        <option value ="">不选</option>
+                        {% for city_name in city_names%}
+                        <option value ="{{city_name.ID}}">{{city_name.NAME}}</option>
+                        {% end %}
+                        </select>
+                </tr>
+
+                <tr>
+                	<td width="130">isp_name</td>
+                	<td>
+   	                <select name="isp_id" id="isp_id" style="width:155px">
+                        <option value ="">不选</option>
+                        <option value ="25">中国移动</option>
+                        <option value ="16">中国联通</option>
+                        <option value ="17">中国电信</option>
+                        </select>
+                </tr>
+                <tr>
+                	<td width="130">节点ID</td> 
+                	<td><input type="text" name="host_id" id="host_id"></td>
+                </tr>
+
+		<tr>
+		<td>
+		<input id="time_type" type="radio"  checked="checked"  name="time_type" value="relatively"/>相对时间                
+		</td>
+		<td></td>
+		</tr>
+
+                <tr>
+                <td width="130">相对当前</td>
+                <td>
+                <select name="rela" id="rela" style="width:155px">
+                <option value ="1">1小时</option>
+                <option value ="2">2小时</option>
+                <option value ="3">3小时</option>
+                <option value ="4">4小时</option>
+                <option value ="5">5小时</option>
+                <option value ="6">6小时</option>
+                <option value ="7">7小时</option>
+                <option value ="8">8小时</option>
+                <option value ="9">9小时</option>
+                <option value ="10">10小时</option>
+                <option value ="11">11小时</option>
+                <option value ="12">12小时</option>
+                </select>
+                </td>
+                </tr>
+
+		<td>
+		<input id="time_type" type="radio"  name="time_type" value="absolutely"/>绝对时间
+		</td>
+		<td></td>
+		</tr>
+                <tr>
+                <td width="130">查询开始时间</td>
+                <td><input type="text" id="bg_time" name="bg_time"><span style="margin:3px 0 0 -5px;"><img src="/static/images/icon_calendar.gif" id="bgDateImg"/></td>
+                </tr>
+
+                <tr>
+                <td width="130">查询结束时间</td>
+                <td><input type="text" id="ed_time" name="ed_time"><span style="margin:3px 0 0 -5px;"><img src="/static/images/icon_calendar.gif" id="edDateImg"/></td>
+                </tr>
+                <tr>
+                	<td width="130"></td>
+                	<td><input id="submit" type="submit" value="查看"></td>
+                </tr>
+                </table>
+                </form>
+                </div>
+	</div>
+        {% include footer.html %}
+</div>
+</body>
+	<script>
+<!--
+          NBCalendar.setup({
+              inputField	:	"bg_time",		// id of the input field
+               button        :   document.getElementById("bgDateImg"),
+              ifFormat		:	"%Y-%m-%d %H:%M",		// format of the input field
+			  showsTime		:true,
+              electric		:	false,			// update field only when closed
+              align			:   "Br"
+          });
+
+          NBCalendar.setup({
+              inputField	:	"ed_time",		// id of the input field
+               button        :   document.getElementById("edDateImg"),
+              ifFormat		:	"%Y-%m-%d %H:%M",		// format of the input field
+			  showsTime		:true,
+              electric		:	false,			// update field only when closed
+              align			:   "Br"
+          });
+ //-->
+      </script>
+</html>
